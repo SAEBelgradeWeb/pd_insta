@@ -15,3 +15,6 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+
+Route::post('/posts', 'PostsController@store')->middleware('auth');
+

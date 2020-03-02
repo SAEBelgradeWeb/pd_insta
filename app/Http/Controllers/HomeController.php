@@ -18,7 +18,7 @@ class HomeController extends Controller
     {
         $posts = Post::with(['user', 'tags', 'comments' => function($query){
             $query->with(['user']);
-        }])->get();
+        }])->orderBy('created_at', 'desc')->get();
 
         return view('home', compact('posts'));
     }
