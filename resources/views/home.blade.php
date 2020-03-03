@@ -30,10 +30,10 @@
             </div>
         @endauth
         @foreach($posts as $post)
-            <div class="row justify-content-center">
+            <div class="row justify-content-center" id="post_{{$post->id}}">
                 <div class="col-md-6 mb-2">
                     <div class="card">
-                        <div class="card-header">{{$post->user->name}}</div>
+                        <div class="card-header"><strong>{{$post->user->name}}</strong></div>
 
                         <div class="card-body" style="background-image: url({{  (substr($post->image, 0, 4) === "http") ? $post->image : asset('storage/' . $post->image) }})">
                             @if (session('status'))
@@ -51,7 +51,14 @@
                                     <strong>{{ $comment->user->name }}</strong> {{$comment->body}}
                                 </div>
                             @endforeach
-
+                            @auth
+                                <form action="/comments" method="post">
+                                    @csrf
+                                    <input type="hidden" name="post_id" value="{{$post->id}}">
+                                    <textarea name="body" id="body" class="form-control" placeholder="My comment..."></textarea>
+                                    <button class="btn btn-primary">Send</button>
+                                </form>
+                            @endauth
                             <div class="text-primary">
                                 @foreach($post->tags as $tag)
                                     #{{$tag->title}}&nbsp;
