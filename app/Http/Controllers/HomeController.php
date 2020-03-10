@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
 
-
     /**
      * Show the application dashboard.
      *
@@ -16,6 +15,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         $posts = Post::with(['user', 'tags', 'comments' => function($query){
             $query->with(['user'])->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'desc')->get();

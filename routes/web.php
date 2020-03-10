@@ -19,3 +19,5 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::post('/posts', 'PostsController@store')->middleware('auth');
 Route::post('/comments', 'CommentsController@store')->middleware('auth');
 
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+

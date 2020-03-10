@@ -5,6 +5,16 @@
     <posts></posts>
     <div class="container">
         @auth
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="row justify-content-center">
                 <div class="col-md-6 mb-2">
                     <div class="card container">
@@ -18,7 +28,7 @@
 
                             <div class="form-group">
                                 <label for="content">Post content</label>
-                                <textarea class="form-control" name="content" id="content"></textarea>
+                                <textarea class="form-control" name="content" id="content">{{ old('content') }}</textarea>
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-primary">Post</button>
@@ -37,7 +47,8 @@
                     <div class="card">
                         <div class="card-header"><strong>{{$post->user->name}}</strong></div>
 
-                        <div class="card-body" style="background-image: url({{  (substr($post->image, 0, 4) === "http") ? $post->image : asset('storage/' . $post->image) }})">
+                        <div class="card-body"
+                             style="background-image: url({{  (substr($post->image, 0, 4) === "http") ? $post->image : asset('storage/' . $post->image) }})">
                             @if (session('status'))
                                 <div class="alert alert-success" role="alert">
                                     {{ session('status') }}
@@ -57,7 +68,8 @@
                                 <form action="/comments" method="post">
                                     @csrf
                                     <input type="hidden" name="post_id" value="{{$post->id}}">
-                                    <textarea name="body" id="body" class="form-control" placeholder="My comment..."></textarea>
+                                    <textarea name="body" id="body" class="form-control"
+                                              placeholder="My comment..."></textarea>
                                     <button class="btn btn-primary">Send</button>
                                 </form>
                             @endauth
