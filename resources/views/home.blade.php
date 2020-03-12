@@ -2,8 +2,8 @@
 
 @section('content')
 
-    <posts></posts>
-    <div class="container">
+    <posts data-posts="{{ json_encode($posts) }}" data-user="{{ json_encode(\Auth::user()) }}"></posts>
+ {{--   <div class="container">
         @auth
 
             @if ($errors->any())
@@ -83,5 +83,5 @@
                 </div>
             </div>
         @endforeach
-    </div>
+    </div>--}}
 @endsection

@@ -7,6 +7,8 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+window.moment = require('moment');
+
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -26,6 +28,7 @@ Vue.use(ElementUI);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('post-form', require('./components/PostFormComponent.vue').default);
+Vue.component('posts', require('./components/PostsComponent.vue').default);
 
 
 /**

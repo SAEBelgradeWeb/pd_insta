@@ -14,3 +14,4 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth:api')->get('posts', 'ApiPostsController@index');
+Route::middleware('auth:api')->post('comments', 'ApiCommentsController@store');
