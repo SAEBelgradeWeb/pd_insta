@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="row justify-content-center" v-for="post in posts">
+        <div class="row justify-content-center" v-for="(post, index) in posts">
             <div class="col-md-6 mb-2">
                 <div class="card">
                     <div class="card-header"><strong>{{post.user.name}} {{post.id}}</strong></div>
@@ -15,7 +15,7 @@
                         <div v-for="comment in post.comments">
                             <div><em><small>{{ relativeDate(comment.created_at) }}</small></em></div>
                             <div class="mb-2">
-                                <strong>{{ comment.user.name }}</strong> {{ comment.body }}
+                                <strong>{{ comment.user.name }}</strong> <p>{{ comment.body }}</p>
                             </div>
                         </div>
 
@@ -24,8 +24,9 @@
 
                                 <input type="hidden" name="post_id" value="{{}}">
                                 <textarea name="body" id="body" class="form-control"
-                                          placeholder="My comment..." v-model:value="comment"></textarea>
-                                <button type="button" class="btn btn-primary" @click="submitComment(post.id)">Send</button>
+                                          placeholder="My comment..." v-model:value="comment[index]"></textarea>
+                                <button type="button" class="btn btn-primary" @click="submitComment(post.id, index)">
+                                    Send</button>
                             </form>
                         </div>
                         <div class="text-primary">
@@ -47,7 +48,7 @@
                 posts: [],
                 loggedIn: false,
                 user: [],
-                comment:'',
+                comment:[],
 
             }
         },
@@ -71,14 +72,16 @@
                         this.posts = response.data;
                     })
             },
-            submitComment(id) {
+            submitComment(id, index) {
                 axios.post('/api/comments', {
-                    body: this.comment,
+                    body: this.comment[index],
                     post_id: id,
-                    user_id: this.user.id
+                    user_id: this.user.id,
+                    index: index
                 })
                     .then((response) => {
-                        console.log(response.data);
+                        this.posts[response.data.index].comments.unshift(response.data.comment);
+                        this.comment = [];
                     })
             }
         }

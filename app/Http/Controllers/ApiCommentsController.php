@@ -9,6 +9,11 @@ class ApiCommentsController extends Controller
 {
     public function store(Request $request)
     {
-        return Comment::create($request->all());
+        $comment = Comment::create($request->all());
+        $comment = Comment::with(['user'])->where('id', $comment->id)->first();
+        return [
+            'comment' => $comment,
+            'index' => $request->index,
+        ];
     }
 }
